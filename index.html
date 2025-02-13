@@ -80,11 +80,15 @@
             border-radius: 0.5rem;
         }
 
-        .success-image {
+        .slideshow-container img {
             width: 100%;
             max-width: 300px;
             border-radius: 0.5rem;
             margin: 1rem 0;
+            display: none;
+        }
+        .slideshow-container img.active {
+            display: block;
         }
 
         .stage {
@@ -131,7 +135,7 @@
         <div class="stage" id="pleadingStage">
             <h1>Please maan ja na! 🥺</h1>
             <div class="images">
-                <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMTcyNHJpcG40ZDFzNGMzNTIxdXhuM2Fob3ZlNDF2ZXF3dTBpb2x1MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3KYGq82Lb74TbVXLVc/giphy.gif" alt="Cute pleading cat">
+                <img src="https://media3.giphy.com/media/3KYGq82Lb74TbVXLVc/giphy.gif" alt="Cute pleading cat">
                 <img src="https://media.giphy.com/media/qUIm5wu6LAAog/giphy.gif" alt="Please puppy">
             </div>
             <button onclick="showSuccess()">Yes 💖</button>
@@ -140,7 +144,12 @@
 
         <div class="stage" id="successStage">
             <h1>I Love You Too Sugguuuu! 💖</h1>
-            <img src="ss.jpg" alt="Love" class="success-image">
+            <div class="slideshow-container">
+                <img src="ss.jpg" class="success-image active">
+                <img src="cc.jpg" class="success-image">
+                <img src="fggef.jpg" class="success-image">
+                <img src="gfvxc.jpg" class="success-image">
+            </div>
             <p id="noCount"></p>
         </div>
     </div>
@@ -171,10 +180,10 @@
         }
 
         function showSuccess() {
-            document.getElementById('noCount').textContent = 
-                `You said no ${noCount} times before saying yes! 😘`;
+            document.getElementById('noCount').textContent = `You said no ${noCount} times before saying yes! 😘`;
             showStage('successStage');
             createHearts();
+            startSlideshow();
         }
 
         function moveButton() {
@@ -197,6 +206,16 @@
                 document.body.appendChild(heart);
                 setTimeout(() => heart.remove(), 2000);
             }
+        }
+
+        function startSlideshow() {
+            let images = document.querySelectorAll('.slideshow-container img');
+            let index = 0;
+            setInterval(() => {
+                images.forEach(img => img.classList.remove('active'));
+                images[index].classList.add('active');
+                index = (index + 1) % images.length;
+            }, 1000);
         }
     </script>
 </body>

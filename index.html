@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ffafbd, #ffc3a0);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+
+        h1 {
+            color: #db2777;
+            margin-bottom: 1.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 2px solid #fbb6ce;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            background-color: #db2777;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.5rem;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #be185d;
+        }
+
+        .no-button {
+            background-color: #6b7280;
+            position: absolute;
+        }
+
+        .no-button:hover {
+            background-color: #4b5563;
+        }
+
+        .images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .images img {
+            width: 100%;
+            border-radius: 0.5rem;
+        }
+
+        .success-image {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .stage {
+            display: none;
+        }
+
+        .stage.active {
+            display: block;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            color: red;
+            animation: floatUp 2s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="stage active" id="nameStage">
+            <h1>Hi Beautiful! 💖</h1>
+            <input type="text" id="nameInput" placeholder="Enter your name">
+            <button onclick="goToQuestion()">Continue ❤️</button>
+        </div>
+
+        <div class="stage" id="questionStage">
+            <h1>Hey <span id="nameDisplay"></span>, do you love me?</h1>
+            <button onclick="showSuccess()">Yes 💖</button>
+            <button class="no-button" id="movingNoBtn" onmouseover="moveButton()" onclick="showPleading()">No 😢</button>
+        </div>
+
+        <div class="stage" id="pleadingStage">
+            <h1>Please maan ja na! 🥺</h1>
+            <div class="images">
+                <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMTcyNHJpcG40ZDFzNGMzNTIxdXhuM2Fob3ZlNDF2ZXF3dTBpb2x1MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3KYGq82Lb74TbVXLVc/giphy.gif" alt="Cute pleading cat">
+                <img src="https://media.giphy.com/media/qUIm5wu6LAAog/giphy.gif" alt="Please puppy">
+            </div>
+            <button onclick="showSuccess()">Yes 💖</button>
+            <button class="no-button" id="movingNoBtn2" onmouseover="moveButton()" onclick="incrementNoCount()">No 😢</button>
+        </div>
+
+        <div class="stage" id="successStage">
+            <h1>I Love You Too Sugguuuu! 💖</h1>
+            <img src="ss.jpg" alt="Love" class="success-image">
+            <p id="noCount"></p>
+        </div>
+    </div>
+
+    <script>
+        let noCount = 0;
+
+        function showStage(stageId) {
+            document.querySelectorAll('.stage').forEach(stage => {
+                stage.classList.remove('active');
+            });
+            document.getElementById(stageId).classList.add('active');
+        }
+
+        function goToQuestion() {
+            const name = document.getElementById('nameInput').value;
+            if (name.trim() === '') {
+                alert('Please enter your name! 🥺');
+                return;
+            }
+            document.getElementById('nameDisplay').textContent = name;
+            showStage('questionStage');
+        }
+
+        function showPleading() {
+            showStage('pleadingStage');
+            incrementNoCount();
+        }
+
+        function showSuccess() {
+            document.getElementById('noCount').textContent = 
+                `You said no ${noCount} times before saying yes! 😘`;
+            showStage('successStage');
+            createHearts();
+        }
+
+        function moveButton() {
+            const btn = document.getElementById('movingNoBtn');
+            btn.style.left = Math.random() * 200 + 'px';
+            btn.style.top = Math.random() * 100 + 'px';
+        }
+
+        function incrementNoCount() {
+            noCount++;
+        }
+
+        function createHearts() {
+            for (let i = 0; i < 10; i++) {
+                let heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                heart.innerHTML = '❤️';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 2000);
+            }
+        }
+    </script>
+</body>
+</html>
